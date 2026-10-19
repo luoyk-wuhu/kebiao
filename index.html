@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>我的课表</title>
-
-</script>
+<title>课序 · 课表工作台</title>
+<meta name="theme-color" content="#f7f9fc">
+<meta name="description" content="课序：清晰、有序的课表与学生管理工作台。支持 Excel 导入、排课编辑与本地备份。">
 
 <style>
   :root{
@@ -529,37 +529,82 @@ col.gutter{width:calc(86px * var(--zs,1))!important}
 #syncDialog p{font-size:13px;line-height:1.8;margin:12px 0}#syncDialog .sync-actions{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}#syncStatus{white-space:pre-wrap}#syncDialog .error{color:#b42318}#syncDialog label{display:block;font-size:13px;margin:14px 0}#syncDialog input[type=url]{width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;margin-top:6px;font:inherit}#syncDialog .preview{border:1px solid var(--line);padding:12px;border-radius:8px}
 
 </style>
+<style id="classflow-design">/* Classflow light workspace — presentation layer, original data contracts retained. */
+:root{--bg:#f7f9fc;--card:#fff;--ink:#202b3c;--ink-2:#647085;--ink-3:#788599;--line:#e5eaf1;--line-2:#f0f3f7;--brand:#5066e9;--brand-deep:#3e50c6;--brand-soft:#eef1ff;--tx:#16876b;--tx-soft:#ebf8f3;--warn:#ad701a;--warn-soft:#fff7e8;--radius:16px;--shadow:0 3px 14px -9px #26385824}
+html{scroll-behavior:smooth;scroll-padding-top:24px}body{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;letter-spacing:.1px}button,input,select,textarea{font-family:inherit}button,a,input,select,textarea{-webkit-tap-highlight-color:transparent}button{touch-action:manipulation}a{color:var(--brand);text-underline-offset:3px}svg{width:20px;height:20px;flex:none}button:disabled{opacity:.45;cursor:not-allowed;transform:none!important}button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:3px solid #9aa9ff;outline-offset:3px}input:focus,select:focus,textarea:focus{outline:2px solid #b1bbff;outline-offset:1px}.skip-link{position:fixed;left:16px;top:-100px;padding:12px 20px;background:#fff;z-index:120;border-radius:8px}.skip-link:focus{top:12px}
+.sidebar{position:fixed;inset:0 auto 0 0;width:232px;padding:30px 18px 20px;background:#fff;border-right:1px solid var(--line);display:flex;flex-direction:column;z-index:25;overflow-y:auto}.app-logo{display:flex;gap:11px;align-items:center;padding:0 11px;text-decoration:none;color:var(--ink);font-size:23px;font-weight:750;letter-spacing:2px;line-height:1.2}.app-logo small{display:block;margin-top:5px;font-size:9px;font-weight:650;letter-spacing:2.1px;color:var(--ink-3)}.logo-mark{width:41px;height:44px;display:grid;place-items:center;background:var(--brand);border-radius:12px;color:#fff;box-shadow:0 4px 10px #5066e925}.logo-mark svg{width:25px;height:25px}.workspace-switch{margin:35px 4px 24px;padding:11px 10px;background:#f9fafc;border:1px solid var(--line);border-radius:10px;display:flex;align-items:center;gap:9px}.workspace-avatar{width:31px;height:32px;border:1px solid #dde3f5;border-radius:8px;display:grid;place-items:center;color:#6573b4;background:#edf1fa;font-size:13px}.workspace-switch b{display:block;font-size:12px;font-weight:650}.workspace-switch small{display:block;font-size:10px;margin-top:2px;color:var(--ink-3)}.workspace-chevron{margin-left:auto;color:var(--ink-3)}.nav-label{font-size:10px;color:#8b95a5;margin:20px 12px 10px;letter-spacing:1px}.nav-current{display:flex;gap:11px;align-items:center;color:var(--brand);background:var(--brand-soft);padding:12px;border-radius:9px;text-decoration:none;font-size:13px;font-weight:650}.nav-current svg{width:18px;height:18px}.nav-active-dot{width:5px;height:5px;background:var(--brand);border-radius:50%;margin-left:auto}.nav-group{display:grid;gap:4px}.nav-group .btn{justify-content:flex-start;width:100%;border:0;padding:11px 12px;background:transparent;box-shadow:none;color:var(--ink-2);border-radius:8px;font-size:12px;gap:11px;min-height:40px}.nav-group .btn svg{width:17px;height:17px;color:#8c96a8}.nav-group .btn:hover{background:#f5f7fc;transform:none;color:var(--brand)}#clearData{color:#9b6e70;font-size:12px}.sidebar-foot{margin:30px 8px 0;padding-top:19px;border-top:1px solid var(--line);display:flex;align-items:flex-start;gap:9px}.sidebar-foot b{display:block;font-size:11px;font-weight:500;color:var(--ink-2)}.sidebar-foot small{display:block;color:var(--ink-3);font-size:10px;margin-top:4px}.local-dot{width:6px;height:6px;border-radius:50%;background:#36ad8b;display:inline-block;flex:none}.sidebar-foot .local-dot{margin-top:5px}
+.app-main{margin-left:232px;min-width:0}.topbar{height:74px;background:#ffffffb3;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 40px;gap:12px}.breadcrumb{font-size:11px;color:var(--ink-3)}.breadcrumb span{margin:0 12px;color:#c6cdd8}.breadcrumb b{font-weight:500;color:var(--ink-2)}.topbar-right{display:flex;gap:22px;align-items:center;font-size:11px;color:var(--ink-3)}.profile-avatar{border:3px solid #fff;box-shadow:0 0 0 1px var(--line);width:32px;height:32px;display:grid;place-items:center;background:#edf0fc;color:#7482bb;border-radius:50%;font-size:11px}.wrap{padding:36px 40px 22px;max-width:1800px}main.wrap:focus{outline:none}header{align-items:center;margin-bottom:28px;gap:20px}.brand{min-width:240px}.eyebrow{font-size:9px;letter-spacing:2px;font-weight:600;color:#8d96a8;margin:0 0 10px}h1{display:block;font-size:27px;letter-spacing:-.7px;font-weight:700;margin-bottom:9px;line-height:1.3}.title-period{color:var(--brand);margin-left:2px}.sub{font-size:12px;color:var(--ink-3);line-height:1.7}.btns{max-width:none!important;gap:10px}.btn{border-radius:8px;padding:10px 15px;font-size:12px;gap:7px;box-shadow:0 1px 2px #25344c05;min-height:38px}.btn svg{width:15px;height:15px}.btn.primary{background:var(--brand);border-color:var(--brand);box-shadow:0 3px 7px #5066e91a}header .btn{padding:11px 16px}.btn:hover{transform:none;background:#f9fafc;border-color:#cdd5e2}.btn.primary:hover{background:var(--brand-deep)}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin:0 0 32px}.metric{border:1px solid var(--line);border-radius:13px;background:#fff;padding:19px 20px 17px;box-shadow:var(--shadow)}.metric-top{display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--ink-2);gap:8px}.metric-icon{width:29px;height:29px;border-radius:8px;display:grid;place-items:center;background:#f2f4ff;color:#7c89d9}.metric-icon svg{width:15px;height:15px}.metric:nth-child(2) .metric-icon{color:#659d90;background:#eff8f4}.metric:nth-child(3) .metric-icon{color:#ba9663;background:#fcf6eb}.metric:nth-child(4) .metric-icon{color:#947fc0;background:#f6f1fb}.metric-value{font-size:33px;line-height:1.25;font-weight:650;letter-spacing:-1px;margin:12px 0 8px;font-variant-numeric:tabular-nums}.metric-value small{font-size:10px;font-weight:400;letter-spacing:0;color:var(--ink-3);margin-left:9px}.metric p{font-size:10px;color:var(--ink-3);margin:0}.correction-note{grid-column:1/-1;font-size:11px;color:var(--warn);margin-top:-3px}.section-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}.section-heading>div{display:flex;align-items:center;gap:15px}.section-heading h2{font-size:16px;margin:0;font-weight:650}.section-caption{font-size:10px;color:var(--ink-3);border-left:1px solid #dce1e9;padding-left:15px}.workspace-badge{font-size:10px;display:flex;align-items:center;gap:6px;color:var(--ink-3)}
+.toolbar{padding:13px 15px;border-radius:12px;margin-bottom:0;box-shadow:none;justify-content:space-between;gap:14px}.searchbar{max-width:310px;min-width:180px}.searchbar input{font-size:12px;padding:10px 34px;background:#f8fafc;border-color:#eaf0f5;border-radius:7px}.searchbar .ico{width:15px;height:15px;left:11px}.seg{padding:4px;gap:2px;border:1px solid #edf0f5;border-radius:8px;background:#f7f9fc;flex:none}.seg button{padding:7px 12px;font-size:11px;border-radius:5px;color:var(--ink-2)}.seg button+button{border:0}.seg button.on{color:var(--brand);background:#fff;box-shadow:0 1px 4px #23355615;font-weight:600}.seg button:hover:not(.on){background:#edf0f8}#saveStatus{font-size:10px;color:var(--ink-3);margin:12px 3px;min-height:16px;line-height:1.6}#saveStatus::before{content:"";display:inline-block;width:5px;height:5px;border:1px solid #9aa8bc;border-radius:50%;margin-right:7px;vertical-align:1px}.tip{font-size:11px}
+.board{border-radius:13px;box-shadow:var(--shadow)}.board-heading{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:17px 20px;border-bottom:1px solid var(--line-2);background:#fff}.board-heading>div{display:flex;align-items:center;gap:9px}.board-heading-icon{display:flex;color:#8996ae}.board-heading-icon svg{width:16px;height:16px}.board-heading h3{font-size:12px;font-weight:650;margin:0}.board-heading>span{font-size:10px;color:var(--ink-3);overflow-wrap:anywhere}.scroll{max-height:660px;min-height:330px;overscroll-behavior-x:contain}.legend{font-size:10px;background:#fff;padding:13px 20px;min-height:44px;gap:18px}.zoombar{position:relative;left:auto;right:auto;bottom:auto;transform:none;margin:10px 16px 10px auto;width:max-content;max-width:calc(100% - 32px);box-shadow:none;background:#f9fafc;border-color:var(--line)}.zb{min-width:30px;height:28px;font-size:14px}.zb.fit,.zb#zoomReset,.zval{font-size:10px}.legend:has(+*){border-top:1px solid var(--line)}thead th{background:#f9fafc}thead th.gut,tbody td.gut{background:#f8fafc}.slothead{padding:16px 12px}.slothead .day{font-size:calc(13px * var(--zs));letter-spacing:0}.slothead .tm{font-size:calc(11px * var(--zs))}.slothead .day .dnum{background:#e9edfd;color:#6c7cce}.section-row th{font-size:11px;font-weight:500;background:#f3f5fd;color:#6b79b5;padding:10px 14px}.section-row.makeup th{background:#fff9ef;color:#a18558}tbody td{padding:calc(10px * var(--zs))}.name{background:#f7f9fd;border-color:#e9edf6;border-radius:6px;font-size:calc(12px * var(--zs,1));padding:calc(5px * var(--zs,1)) calc(10px * var(--zs,1))}.lesson-group{border-color:#e9edf4;border-radius:9px;padding:12px}.lesson-group.makeup{background:#fffcf6;border-color:#f3ead9}.group-title{font-size:11px;color:var(--ink-2)}.stucard{padding:18px!important;border-radius:12px!important;transition:border-color .15s,box-shadow .15s}.stucard:hover{border-color:#b9c3f6!important;box-shadow:0 4px 14px #5066e90b}.live-hero,.live-hero.on{background:#f8fafc;padding:24px;border-bottom:1px solid var(--line-2)}.live-hero.on{background:#f4faf7}.lh-clock{font-size:34px;letter-spacing:-1px;font-weight:600}.lh-status{font-size:14px}.lh-cap,.lh-day{font-size:11px}.lhbtn{font-size:11px}.live-sec{padding:23px 22px 5px}.live-sec h3{font-size:13px}.lcard{border-radius:12px;padding:17px}.idle-list,.live-cards{grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr))}.idle-item{border-radius:9px}.ii-hd{padding:13px}.ii-name{font-size:12px}.lc-day{font-size:12px}.lc-time{font-size:11px}.sec-hint{font-size:10px}.page-footer{display:flex;justify-content:space-between;padding:24px 2px 8px;color:#98a1b1;font-size:9px}.page-footer>span:first-child{letter-spacing:1.2px;font-weight:600}
+.empty{text-align:center;padding:70px 20px;color:var(--ink-2);font-size:14px}.empty .big{display:block;font-size:36px;margin-bottom:20px}.empty-start{padding:50px 20px 46px;display:flex;align-items:center;flex-direction:column}.empty-art{position:relative;display:grid;place-items:center;width:80px;height:80px;border:1px solid #dce3f8;border-radius:24px;background:linear-gradient(145deg,#fafbff,#eef1ff);color:#8293e5;margin:0 0 25px;transform:rotate(-5deg)}.empty-art>svg{width:37px;height:37px;stroke-width:1.3}.empty-art i{position:absolute;right:-9px;bottom:-4px;display:grid;place-items:center;width:32px;height:32px;background:#fff;box-shadow:0 3px 8px #263c6c12;border:1px solid var(--line);border-radius:10px;color:#99a7ce;transform:rotate(12deg)}.empty-art i svg{width:17px;height:17px}.empty-eyebrow{font-size:8px;color:#94a0b6;letter-spacing:2px}.empty-start h3{font-size:20px;margin:10px 0 0;color:var(--ink);font-weight:600;letter-spacing:-.5px}.empty-start p{font-size:11px;color:var(--ink-3);line-height:1.9;margin:12px 0 22px}.empty-actions{display:flex;gap:9px;justify-content:center}.empty-actions .btn{font-size:11px;padding:9px 16px}.empty-actions svg{width:13px;height:13px}.empty-footnote{font-size:10px;color:#909bad;margin-top:20px}.text-button{border:0;background:transparent;color:var(--brand);padding:0 4px;font-size:10px;cursor:pointer}
+#editor,#featureDialog,#syncDialog{box-shadow:0 24px 90px #26345226;border:1px solid #dfe5ef;border-radius:18px;padding:26px;max-height:88dvh;overscroll-behavior:contain}dialog::backdrop{background:#27334a55!important;backdrop-filter:blur(4px)}.editor-head{border-bottom:1px solid var(--line);padding-bottom:17px}.editor-head h2{font-size:18px;font-weight:650}.editor-actions{padding-top:16px;border-top:1px solid var(--line)}#editor input,#editor select,#featureDialog input,#featureDialog textarea{background:#fbfcfe;border-radius:8px;font-size:13px}#editor label,#featureDialog label{font-size:12px}.record-row,.slot-row{background:#fafbfd;padding:14px;border:1px solid var(--line);border-radius:10px;margin:12px 0}.rule-row{padding:0 12px;background:#fafbfd;border:1px solid var(--line);border-radius:9px;margin-top:10px}.color-summary{background:#fff9ec;color:#8c713f;border:1px solid #f0e4c9}.dw-hd{padding:26px 22px;background:#fbfcfe}.dw-name{font-size:24px;letter-spacing:-.5px}.dw-meta{font-size:11px}.dw-day,.dw-rec,.dw-peers,.dw-peerbox{padding-left:22px;padding-right:22px}.dw-ft{padding:18px 22px}.dw-ft .btn{width:100%;justify-content:center}.dw-close{background:#f0f3f8;border-radius:50%;width:30px;height:30px}#importPanel{background:#27334a55;backdrop-filter:blur(4px)}.ip-card{border-radius:18px;box-shadow:0 20px 90px #26345226}.ip-hd{padding:22px 24px}.ip-bd{padding:24px}.ip-ft{padding:18px 24px;background:#fbfcfe}.drop{border:1.5px dashed #c8d1f4;background:#f9faff;padding:36px 20px}.upload-icon{width:48px;height:48px;background:#eef1ff;border:1px solid #e1e6fb;border-radius:13px;margin:0 auto 16px;display:grid!important;place-items:center;opacity:1!important;color:#8290d5}.upload-icon svg{width:23px;height:23px}.drop .t1{font-size:13px}.drop .t2{font-size:11px}.ip-note{font-size:11px;line-height:1.9;background:#f8fafc}.toast{background:#28354b;border-radius:10px;font-size:12px;box-shadow:0 6px 25px #26345222;max-width:90vw}
+@media(min-width:1600px){.wrap{padding-top:44px}.stats{gap:20px}.metric{padding:22px 24px}.scroll{max-height:calc(100dvh - 420px)}}
+@media(max-width:1200px){.sidebar{width:206px;padding:26px 12px 18px}.app-main{margin-left:206px}.wrap{padding:28px 26px 20px}.topbar{padding:0 26px}.metric{padding:16px}.stats{gap:11px}h1{font-size:23px}.toolbar{gap:10px}.seg button{padding:7px 9px}.searchbar{max-width:240px}.sidebar-foot{margin-top:22px}}
+@media(max-width:1024px){.toolbar{align-items:stretch}.searchbar{max-width:none;flex:1 1 100%}.seg{align-self:flex-start}.wrap{padding:25px 22px}.metric-value{font-size:29px}.metric p{font-size:9px}.section-caption{display:none}header{gap:16px}.brand{flex:1 1 100%}.btns{width:auto}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.scroll{max-height:650px}.sidebar{width:196px}.app-main{margin-left:196px}.nav-group .btn{font-size:11px}}
+@media(max-width:820px){.sidebar{position:relative;width:auto;inset:auto;padding:16px;background:#fff;border-right:0;border-bottom:1px solid var(--line);overflow:visible;display:block}.app-logo{width:max-content;font-size:19px;padding:0;gap:9px}.app-logo small{font-size:7px;margin-top:3px}.logo-mark{width:34px;height:36px;border-radius:10px}.logo-mark svg{width:21px;height:21px}.workspace-switch,.nav-current,.nav-label,.sidebar-foot{display:none}.sidebar .nav-group{display:flex;flex-wrap:wrap;gap:5px;margin-top:14px}.sidebar .nav-group+.nav-label+.nav-group{margin-top:5px}.nav-group .btn{width:auto;min-height:36px;padding:8px 10px;font-size:11px;background:#f8fafc;border:1px solid #edf0f5;gap:5px;flex:0 1 auto}.nav-group .btn svg{width:13px;height:13px}.app-main{margin:0}.topbar{height:49px;padding:0 18px}.topbar-right{gap:12px;font-size:10px}.profile-avatar{height:24px;width:24px;font-size:9px}.breadcrumb{font-size:10px}.breadcrumb span{margin:0 7px}.wrap{padding:24px 16px 16px}header{margin-bottom:22px}.brand{flex:1 1 100%}.eyebrow{font-size:8px;margin-bottom:8px}h1{font-size:23px;margin-bottom:8px}.sub{font-size:11px}.btns{width:100%;gap:8px}.btns .btn,.btns .btn.primary{flex:1 1 0;min-height:42px;font-size:12px}.stats{gap:10px;margin-bottom:26px}.metric{border-radius:11px;padding:14px}.metric-value{margin:8px 0;font-size:30px}.metric-top{font-size:10px}.metric-value small{font-size:9px;margin-left:7px}.metric p{font-size:9px}.metric-icon{width:25px;height:25px}.section-heading{margin-bottom:13px}.section-heading h2{font-size:15px}.workspace-badge{font-size:9px}.toolbar{padding:10px;gap:10px;border-radius:10px}.searchbar input{font-size:16px;padding:10px 32px}.seg{display:flex;width:100%;flex:1 1 100%;padding:4px}.seg button{flex:1;min-width:0;padding:9px 3px;font-size:10px}.board{border-radius:11px}.board-heading{padding:14px;align-items:flex-start}.board-heading h3{font-size:11px}.board-heading>span{font-size:9px;max-width:52%;text-align:right}.scroll{min-height:300px;max-height:70dvh;overflow:auto}.empty-start{padding:40px 16px}.empty-start p{padding:0;font-size:10px}.empty-start h3{font-size:18px}.empty-art{width:66px;height:66px;border-radius:19px}.empty-art>svg{width:31px;height:31px}.empty-actions .btn,.empty-actions .btn.primary{flex:0 1 auto;padding:9px 12px;font-size:10px}.empty-actions{gap:7px}.empty-footnote{font-size:9px}.legend{padding:12px 14px;gap:8px;font-size:9px;line-height:1.6}.legend i{width:7px;height:7px}.zoombar{position:relative;left:auto;right:auto;bottom:auto;transform:none;width:max-content;margin:8px 10px 8px auto;padding:4px;border-radius:9px;box-shadow:none}.zb{height:32px;min-width:31px}.zb.fit,.zb#zoomReset{font-size:10px;padding:0 9px}.zval{font-size:10px;min-width:40px}.live-hero,.live-hero.on{padding:20px 16px;gap:15px}.lh-clock{font-size:30px}.lh-mid{min-width:160px}.lh-right .btn{flex:1;min-height:36px}.live-sec{padding:18px 14px 4px}.live-cards,.idle-list{grid-template-columns:1fr}.stucard{padding:15px!important}#board>div>div:has(>.stucard){grid-template-columns:1fr!important}.page-footer{font-size:8px;padding-top:20px}#drawer{width:100%;max-width:100%;max-height:85dvh}.dw-hd{padding:20px 18px 15px}.dw-name{font-size:22px}.dw-ft{padding-bottom:calc(18px + env(safe-area-inset-bottom))}.ip-card{border-radius:18px 18px 0 0}.ip-hd{padding:18px}.ip-bd{padding:18px}.ip-ft{padding:14px 18px calc(14px + env(safe-area-inset-bottom))}.ip-ft .btn.primary{flex:1}#editor,#featureDialog,#syncDialog{padding:18px;max-height:88dvh}.editor-head h2{font-size:17px}.editor-head .btn,.editor-actions .btn.primary{flex:0 1 auto}.record-row,.slot-row,.rule-row{grid-template-columns:1fr 1fr;padding:12px;gap:10px}.record-row label:first-child{grid-column:1/-1}.record-row .remove-row,.rule-row button{grid-column:1/-1}.editor-actions{flex-wrap:wrap}.editor-actions .btn{flex:1}.editor-actions .btn.primary{flex:1}.rec-flags{flex-wrap:wrap;gap:10px}.record-row label{min-width:0}.sync-actions .btn.primary{flex:1 1 auto}.toast{bottom:24px;font-size:11px}.section-caption{display:none}}
+@media(max-width:400px){.wrap{padding:22px 12px 14px}.sidebar{padding:14px 12px}.nav-group .btn{font-size:10px;padding:7px 8px;gap:4px}.nav-group .btn svg{width:12px;height:12px}h1{font-size:21px}.metric{padding:12px}.metric-value small{display:block;margin:4px 0 0}.metric-value{font-size:29px}.metric p{font-size:8px}.topbar{padding:0 13px}.topbar-right{font-size:9px;gap:7px}.breadcrumb{font-size:9px}.empty-actions .btn{padding:9px 10px}.page-footer{gap:10px}.seg button{font-size:9px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
+@media print{.sidebar,.topbar,header .btns,.toolbar,.zoombar,.page-footer,.board-heading>span,#saveStatus,.tip,#drawer,#importPanel,.toast{display:none!important}.app-main{margin:0}.wrap{padding:0}.stats{margin-bottom:16px;grid-template-columns:repeat(4,1fr)}body{background:#fff}.scroll{max-height:none;overflow:visible}.board{overflow:visible;box-shadow:none}table{width:100%;min-width:0}.board-heading{padding:8px}thead th{position:static!important}.name{print-color-adjust:exact}}
+.mobile-tools-toggle{display:none}.sidebar-tools{display:block}
+@media(max-width:820px){.sidebar{min-height:66px;position:relative}.app-logo{width:max-content}.mobile-tools-toggle{display:flex;align-items:center;gap:7px;position:absolute;right:16px;top:18px;border:1px solid var(--line);background:#f8fafc;color:var(--ink-2);border-radius:7px;padding:8px 10px;font:11px inherit;cursor:pointer}.mobile-tools-toggle span{font-size:15px;line-height:1}.sidebar-tools{display:none}.sidebar-tools.mobile-open{display:block;padding-top:2px}.sidebar-tools .nav-group{margin-top:14px}.sidebar-tools .nav-group .btn{border-color:var(--line)}.sidebar-tools .nav-group .btn:hover{border-color:#cdd5e2}}
+
+/* Saved student finding marks. These never change lesson type or attendance flags. */
+.find-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:16px}
+.find-button{border:1px solid #dde3eb;border-radius:7px;padding:7px 11px;min-height:33px;font:12px/1.4 inherit;cursor:pointer;transition:background .15s,border-color .15s;white-space:nowrap}
+.find-button.found{color:#16805a;background:#eaf8ef;border-color:#c5e8d2}
+.find-button.found[aria-pressed="true"]{color:#fff;background:#249b62;border-color:#249b62}
+.find-button.missing{color:#647184;background:#eef0f3;border-color:#dce1e7}
+.find-button.missing[aria-pressed="true"]{color:#fff;background:#788392;border-color:#788392}
+.find-button.clear{background:#fff;color:var(--ink-2)}
+.find-button:hover{filter:brightness(.97)}.find-button:disabled{filter:none}
+.find-status-hint{color:var(--ink-3);font-size:10px;margin-top:8px}
+.name[data-find-status="found"],.dw-peer[data-find-status="found"]{background:#e7f7ed!important;border-color:#b8e2c8!important;color:#147447!important}
+.name[data-find-status="missing"],.dw-peer[data-find-status="missing"]{background:#e9ecf0!important;border-color:#d0d6df!important;color:#6b7280!important}
+.name.sel[data-find-status]{outline:2px solid var(--brand);outline-offset:2px}
+.stucard[data-find-status="found"]{background:#f0faf4!important;border-color:#b8e2c8!important}
+.stucard[data-find-status="missing"]{background:#f1f2f4!important;border-color:#d0d6df!important}
+.stucard[data-find-status="found"]>div:first-child>span:first-child,.idle-item[data-find-status="found"] .ii-name,#dwName[data-find-status="found"]{color:#147447!important}
+.stucard[data-find-status="missing"]>div:first-child>span:first-child,.idle-item[data-find-status="missing"] .ii-name,#dwName[data-find-status="missing"]{color:#6b7280!important}
+.idle-item[data-find-status="found"]{border-color:#b8e2c8;background:#f0faf4}
+.idle-item[data-find-status="missing"]{border-color:#d0d6df;background:#f1f2f4}
+@media(max-width:820px){.find-actions{margin-top:12px}.find-button{min-height:36px;padding:8px 12px}.find-status-hint{font-size:10px}}
+</style>
 </head>
 <body>
 
-<div class="wrap">
+<a class="skip-link" href="#workspace">跳至课表</a>
+<aside class="sidebar" aria-label="工作台导航">
+  <a class="app-logo" href="#workspace"><span class="logo-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4m10-4v4M3 11h18m-12 4h.01M12 15h.01M16 15h.01M8 18h.01M12 18h.01"/></svg></span><span>课序<small>CLASSFLOW</small></span></a>
+  <div class="workspace-switch"><span class="workspace-avatar">课</span><div><b>我的教学空间</b><small>个人工作台</small></div><span class="workspace-chevron">⌄</span></div>
+  <button class="mobile-tools-toggle" id="toolsToggle" aria-expanded="false" aria-controls="sidebarTools">管理工具 <span>☷</span></button><div class="sidebar-tools" id="sidebarTools">
+  <p class="nav-label">工作空间</p>
+  <a class="nav-current" href="#workspace"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg><span>课表工作台</span><span class="nav-active-dot"></span></a>
+  <p class="nav-label">课表管理</p>
+  <nav class="nav-group"><button class="btn " id="manageSlots"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>管理上课时段</span></button><button class="btn " id="nameReview"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 5 4 4M4 20l4-1L20 7a2.8 2.8 0 0 0-4-4L4 15v5ZM13 20h7"/></svg><span>姓名纠错</span></button><button class="btn " id="editColumn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16M3 10h18"/></svg><span>编辑左侧栏</span></button><button class="btn " id="syncOnline"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5M6 7a7 7 0 0 1 12-2l2 3M4 16l2 3a7 7 0 0 0 12-2"/></svg><span>一键更新数据</span></button></nav>
+  <p class="nav-label">数据与备份</p><nav class="nav-group"><button class="btn " id="backup"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4M4 15v5h16v-5"/></svg><span>导出备份</span></button><button class="btn " id="restore"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4m-4 4 4-4 4 4M4 15v5h16v-5"/></svg><span>恢复备份</span></button><button class="btn " id="btnReset"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4v6h6M4 10a8 8 0 1 1 0 6"/></svg><span>重置视图</span></button><button class="btn " id="clearData"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18M9 6V3h6v3M6 6l1 15h10l1-15M10 10v7m4-7v7"/></svg><span>清空数据</span></button></nav>
+  </div><input id="backupFile" type="file" accept=".json" hidden>
+  <div class="sidebar-foot"><span class="local-dot"></span><div><b>本地数据空间</b><small>建议定期导出备份，安心保存</small></div></div>
+</aside>
+<div class="app-main">
+  <div class="topbar"><div class="breadcrumb">我的教学空间 <span>/</span> <b>课表工作台</b></div><div class="topbar-right"><span id="todayDate"></span><span class="profile-avatar" title="个人工作台">我</span></div></div>
+<main class="wrap" id="workspace" tabindex="-1">
   <header>
-    <div class="brand">
-      <h1><span class="dot"></span>我的课表</h1>
-      <p class="sub">点名字查看与编辑 · 数据仅保存在当前浏览器 · 建议定期导出备份</p>
-      <div class="stats" id="stats"></div>
-    </div>
-    <div class="btns">
-      <button class="btn primary" id="btnImport">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5-5 5 5"/><path d="M12 5v13"/>
-        </svg>
-        导入 Excel
-      </button>
-      
-      <button class="btn" id="btnReset">重置视图</button><button class="btn primary" id="addStudent">添加学生</button><button class="btn" id="manageSlots">管理时段</button><button class="btn primary" id="syncOnline">一键更新数据</button><button class="btn" id="nameReview">姓名纠错</button><button class="btn" id="editColumn">编辑左侧栏</button><button class="btn" id="backup">导出备份</button><button class="btn" id="restore">恢复备份</button><button class="btn" id="clearData">清空数据</button><input id="backupFile" type="file" accept=".json" hidden>
-    </div>
+    <div class="brand"><p class="eyebrow">YOUR TEACHING, IN ORDER</p><h1>让每一节课，井然有序<span class="title-period">.</span></h1><p class="sub">课表、学生与排课安排，在一个清晰的工作空间里掌握。</p></div>
+    <div class="btns"><button class="btn " id="btnImport"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4m-4 4 4-4 4 4M4 15v5h16v-5"/></svg><span>导入 Excel</span></button><button class="btn primary" id="addStudent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>添加学生</span></button></div>
   </header>
-
+  <section class="stats" id="stats" aria-label="课表数据概览"></section>
+  <section class="schedule-section" aria-labelledby="scheduleTitle">
+  <div class="section-heading"><div><h2 id="scheduleTitle">课表总览</h2><span class="section-caption">所有安排，一目了然</span></div><span class="workspace-badge"><span class="local-dot"></span>本地工作台</span></div>
   <div class="toolbar">
     <div class="searchbar">
       <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
         <circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/>
       </svg>
-      <input id="q" type="search" placeholder="搜索学生姓名" autocomplete="off" spellcheck="false">
+      <input aria-label="搜索学生姓名" id="q" type="search" placeholder="搜索学生姓名…" autocomplete="off" spellcheck="false">
       <button class="clr" id="clr" title="清空">×</button>
     </div>
-    <div class="seg">
+    <div class="seg" role="group" aria-label="课表视图">
       <button data-view="live" class="on">此刻上课</button>
       <button data-view="time">按时段课表</button>
       <button data-view="day">按天课表</button>
@@ -567,10 +612,11 @@ col.gutter{width:calc(86px * var(--zs,1))!important}
     </div>
   </div>
 
-  <p id="saveStatus" role="status" style="font-size:13px;color:var(--ink-2)"></p><div class="tip" id="tip"></div>
+  <p id="saveStatus" role="status"></p><div class="tip" id="tip"></div>
 
   <div class="board">
-    <div class="scroll" id="board"></div>
+    <div class="board-heading"><div><span class="board-heading-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4m10-4v4M3 11h18m-12 4h.01M12 15h.01M16 15h.01M8 18h.01M12 18h.01"/></svg></span><h3 id="currentViewTitle">此刻上课</h3></div><span id="viewHint">实时掌握上课动态</span></div>
+    <div class="scroll" id="board" role="region" aria-label="课表内容" tabindex="0"></div>
     <div class="zoombar" id="zoombar">
       <button class="zb" id="zoomOut" title="缩小">−</button>
       <span class="zval" id="zoomVal">100%</span>
@@ -585,14 +631,21 @@ col.gutter{width:calc(86px * var(--zs,1))!important}
       <span><i style="background:var(--brand-soft);border:1px solid #cfe0fa"></i>「（小区）」＝上课地点</span>
     </div>
   </div>
-</div>
+  </section>
+  <footer class="page-footer"><span>课序 CLASSFLOW</span><span>有条理的安排，从容的每一天。</span></footer>
+</main></div>
 
 <!-- 详情抽屉 -->
-<aside id="drawer">
+<aside id="drawer" role="dialog" aria-label="学生排课详情">
   <div class="dw-hd">
     <div class="t">
       <div class="dw-name" id="dwName">—</div>
       <div class="dw-meta" id="dwMeta"></div>
+      <div class="find-actions" role="group" aria-label="学生查找标记">
+        <button type="button" class="find-button found" id="findFound" data-find="found" aria-pressed="false">✓ 已找到</button>
+        <button type="button" class="find-button missing" id="findMissing" data-find="missing" aria-pressed="false">− 未找到</button>
+        <button type="button" class="find-button clear" id="findClear" data-find="clear">清除</button>
+      </div><div class="find-status-hint" id="findStatusHint" role="status"></div>
     </div>
     <button class="dw-close" id="dwClose" title="关闭">×</button>
   </div>
@@ -601,15 +654,15 @@ col.gutter{width:calc(86px * var(--zs,1))!important}
 </aside>
 
 <!-- 导入面板 -->
-<div id="importPanel">
+<div id="importPanel" role="dialog" aria-modal="true" aria-labelledby="importTitle" tabindex="-1">
   <div class="ip-card">
     <div class="ip-hd">
-      <h2>导入 Excel 并自动整理</h2>
+      <h2 id="importTitle">导入 Excel 并自动整理</h2>
       <button class="dw-close" id="ipClose" title="关闭">×</button>
     </div>
     <div class="ip-bd">
-      <div class="drop" id="drop">
-        <span class="ic">📊</span>
+      <div class="drop" id="drop" role="button" tabindex="0" aria-label="选择 Excel 文件">
+        <span class="ic upload-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4m-4 4 4-4 4 4M4 15v5h16v-5"/></svg></span>
         <div class="t1">点击选择，或把 Excel 文件拖到这里</div>
         <div class="t2">支持 .xlsx / .xls / .csv<br>文件在你的浏览器本地解析，不会上传到任何服务器</div>
       </div>
@@ -640,6 +693,7 @@ col.gutter{width:calc(86px * var(--zs,1))!important}
 <script>
 (function(){
 'use strict';
+const UI_ICONS = {"people": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"9\" cy=\"8\" r=\"3\"/><path d=\"M3 21v-3a6 6 0 0 1 12 0v3M16 5a3 3 0 0 1 0 6m2 4a5 5 0 0 1 3 4v2\"/></svg>", "clock": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7v5l3 2\"/></svg>", "calendar": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"3\" y=\"5\" width=\"18\" height=\"16\" rx=\"3\"/><path d=\"M7 3v4m10-4v4M3 11h18m-12 4h.01M12 15h.01M16 15h.01M8 18h.01M12 18h.01\"/></svg>", "grid": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"3\" y=\"3\" width=\"7\" height=\"7\" rx=\"2\"/><rect x=\"14\" y=\"3\" width=\"7\" height=\"7\" rx=\"2\"/><rect x=\"3\" y=\"14\" width=\"7\" height=\"7\" rx=\"2\"/><rect x=\"14\" y=\"14\" width=\"7\" height=\"7\" rx=\"2\"/></svg>"};
 
 /* ═══════════════ 1. 别名 / 修正规则 ═══════════════ */
 // 已确认的错别字写法 → 标准写法
@@ -952,12 +1006,15 @@ function renderStats(){
   const total = names.length;
   const recs = names.reduce((a,n) => a + STUDENTS[n].length, 0);
   const maxCnt = Math.max(0, ...names.map(n => STUDENTS[n].length));
-  $('#stats').innerHTML =
-    `<span class="chip">学生 <b>${total}</b> 名</span>` +
-    `<span class="chip">时段 <b>${SLOTS.length}</b> 个</span>` +
-    `<span class="chip">上课记录 <b>${recs}</b> 条</span>` +
-    `<span class="chip">单人最多 <b>${maxCnt}</b> 次</span>` +
-    (FIX_LOG.length ? `<span class="chip" style="border-color:#f0dcb8;background:var(--warn-soft);color:#8a5a10">已修正 <b>${FIX_LOG.length}</b> 处写法</span>` : '');
+  const metrics = [
+    ['学生总数',total,'名学生','people','管理每一位学生的课程'],
+    ['上课时段',SLOTS.length,'个时段','clock','一周的教学时间安排'],
+    ['排课记录',recs,'条记录','calendar','正常课与补课统一掌握'],
+    ['单人最多排课',maxCnt,'次 / 人','grid','清晰了解学生课时分布']
+  ];
+  $('#stats').innerHTML = metrics.map(([label,value,unit,icon,caption]) =>
+    `<article class="metric"><div class="metric-top"><span>${label}</span><span class="metric-icon">${UI_ICONS[icon]}</span></div><div class="metric-value">${value}<small>${unit}</small></div><p>${caption}</p></article>`).join('');
+  if(FIX_LOG.length) $('#stats').insertAdjacentHTML('beforeend',`<div class="correction-note">已记录 ${FIX_LOG.length} 处姓名修正 · 可在「姓名纠错」中核对</div>`);
 }
 
 /* ═══════════════ 6. 渲染：课表 ═══════════════ */
@@ -965,7 +1022,7 @@ function renderStats(){
 function nameHTML(n, slotFull){
   const cnt = slotFull ? STUDENTS[n].filter(r => r.full === slotFull).length : STUDENTS[n].length;
   const hasBu = STUDENTS[n].some(r => (!slotFull || r.full === slotFull) && isMakeup(r));
-  return `<button class="name${selected===n?' sel':''}${hit(n)?' hit':''}${isFixed(n)?' fixed-src':''}" data-n="${esc(n)}">`
+  return `<button class="name${selected===n?' sel':''}${hit(n)?' hit':''}${isFixed(n)?' fixed-src':''}" data-n="${esc(n)}"${findStatusAttrs(n)}>`
     + hl(n)
     + (cnt > 1 ? `<span class="mini">×${cnt}</span>` : '')
     + (hasBu ? `<span class="bu">补</span>` : '') + recordFlagsHTML(STUDENTS[n].filter(r=>!slotFull || r.full===slotFull))
@@ -985,7 +1042,7 @@ function renderStuList(){
   let h = '<div style="padding:14px 16px"><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:9px">';
   names.forEach(n => {
     const recs = STUDENTS[n];
-    h += `<div style="border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:#fff;cursor:pointer" data-n="${esc(n)}" class="stucard">
+    h += `<div style="border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:#fff;cursor:pointer" data-n="${esc(n)}"${findStatusAttrs(n)} class="stucard">
       <div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">
         <span style="font-size:15px;font-weight:700">${hl(n)}</span>
         <span style="font-size:11px;background:var(--brand-soft);color:var(--brand-deep);border-radius:5px;padding:1px 7px">${recs.length} 次</span>
@@ -1137,7 +1194,7 @@ function renderLive(){
   h += `<div class="idle-list">`;
   idle.forEach(n => {
     const recs = STUDENTS[n].slice().sort((a,b) => (DAY_ORDER[a.day]-DAY_ORDER[b.day]) || a.time.localeCompare(b.time,'zh'));
-    h += `<div class="idle-item" data-n="${esc(n)}">
+    h += `<div class="idle-item" data-n="${esc(n)}"${findStatusAttrs(n)}>
       <div class="ii-hd">
         <span class="ii-name">${esc(n)}</span>
         <span class="ii-cnt">${recs.length} 个时段</span>
@@ -1157,12 +1214,21 @@ function renderLive(){
 function nmHTML(n){
   const recs = STUDENTS[n] || [];
   const hasBu = recs.some(r => isMakeup(r));
-  return `<button class="name${selected===n?' sel':''}" data-n="${esc(n)}">${esc(n)}`
+  return `<button class="name${selected===n?' sel':''}" data-n="${esc(n)}"${findStatusAttrs(n)}>${esc(n)}`
     + (hasBu ? `<span class="bu">补</span>` : '') + `</button>`;
 }
 
 function render(){
-  if(!SLOTS.length && !Object.keys(STUDENTS).length){ $('#board').innerHTML = '<div class="empty"><span class="big">🗓️</span>开始创建你的课表<p>先点击「管理时段」设置上课时间，再添加学生；也可以导入 Excel 或恢复备份。</p></div>'; renderStats(); return; }
+  const labels={live:['此刻上课','实时掌握上课动态'],time:['按时段课表','横向滚动查看全部时段 · 支持缩放'],day:['按天课表','按星期查看课程安排 · 支持缩放'],stu:['学生清单','点击学生卡片查看与编辑排课']};
+  $('#currentViewTitle').textContent=labels[view][0];
+  $('#viewHint').textContent=keyword?'搜索：'+keyword:labels[view][1];
+  $('#zoombar').hidden=!['time','day'].includes(view)||!SLOTS.length;
+  document.querySelectorAll('.seg button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.view===view)));
+
+  if(!SLOTS.length && !Object.keys(STUDENTS).length){
+    $('#board').innerHTML = `<div class="empty empty-start"><span class="empty-art">${UI_ICONS.calendar}<i>${UI_ICONS.people}</i></span><span class="empty-eyebrow">A FRESH START</span><h3>从第一节课开始</h3><p>导入已有的 Excel 课表，或创建上课时段后添加学生。<br>每一次安排，都在这里清晰呈现。</p><div class="empty-actions"><button class="btn primary" data-action="btnImport">导入 Excel ${UI_ICONS.calendar}</button><button class="btn" data-action="manageSlots">创建上课时段 →</button></div><span class="empty-footnote">已有备份？<button class="text-button" data-action="restore">恢复课表数据</button></span></div>`;
+    renderStats(); return;
+  }
   if(view === 'live'){ renderLive(); renderStats(); return; }
   if(view === 'time') renderTimeTable();
   else if(view === 'day') renderDayTable();
@@ -1179,6 +1245,7 @@ function openDetail(n){
   if(!recs){ closeDetail(); return; }
   const locs = [...new Set(recs.map(r => r.loc).filter(Boolean))];
   $('#dwName').textContent = n;
+  updateFindControls(n);
   const fixInfo = FIX_LOG.filter(f => f.to === n);
   $('#dwMeta').innerHTML = `一周上课 <b>${recs.length}</b> 次`
     + (locs.length ? ` · 地点 ${locs.map(esc).join('、')}` : '')
@@ -1214,7 +1281,7 @@ function openDetail(n){
   if(peers.size){
     const arr = [...peers.keys()].sort((a,b) => a.localeCompare(b,'zh'));
     bd += `<div class="dw-peers">同班同学 <span style="font-weight:400;color:var(--ink-3)">${arr.length} 人</span></div>
-      <div class="dw-peerbox">` + arr.map(p => `<button class="dw-peer" data-n="${esc(p)}">${esc(p)}</button>`).join('') + `</div>`;
+      <div class="dw-peerbox">` + arr.map(p => `<button class="dw-peer" data-n="${esc(p)}"${findStatusAttrs(p)}>${esc(p)}</button>`).join('') + `</div>`;
   }
 
   $('#dwBd').innerHTML = bd;
@@ -1382,8 +1449,9 @@ $('#board').addEventListener('wheel', e => {
 /* ═══════════════ 9. 导入 ═══════════════ */
 let pending = null;
 
-function openImport(){ $('#importPanel').classList.add('show'); $('#ipRes').classList.remove('show'); $('#ipApply').disabled = true; pending = null; }
-function closeImport(){ $('#importPanel').classList.remove('show'); }
+let importReturnFocus = null;
+function openImport(){ importReturnFocus=document.activeElement; $('#importPanel').classList.add('show'); $('#drop').focus(); $('#ipRes').classList.remove('show'); $('#ipApply').disabled = true; pending = null; }
+function closeImport(){ $('#importPanel').classList.remove('show'); importReturnFocus?.focus(); }
 
 $('#btnImport').addEventListener('click', openImport);
 $('#ipClose').addEventListener('click', closeImport);
@@ -1632,7 +1700,13 @@ $('#editorForm').onsubmit=e=>{
       if(new Set(recs.map(r=>r.full)).size!==recs.length) throw Error('同一时段不能重复排课');
       const overlap=recs.some((a,i)=>recs.slice(i+1).some(b=>{const x=parseTimeRange(a.time),y=parseTimeRange(b.time);return a.day===b.day && x.start<y.end && y.start<x.end;}));
       if(overlap && !confirm('该学生存在时间重叠的排课，仍要保存吗？')) return;
-      if(editingName!==null) delete data.students[editingName];
+      if(editingName!==null){
+        delete data.students[editingName];
+        if(editingName!==name&&Object.hasOwn(data.findStatus,editingName)){
+          Object.defineProperty(data.findStatus,name,{value:data.findStatus[editingName],enumerable:true,configurable:true,writable:true});
+          delete data.findStatus[editingName];
+        }
+      }
       Object.defineProperty(data.students,name,{value:recs,enumerable:true,configurable:true,writable:true});
     }else{
       readSlotDraft();
@@ -1686,7 +1760,34 @@ function loadExcel(){
 let COLUMN={title:'年级 / 序号',labels:[]};
 let ROSTER={source:'',counts:{}};
 let RULES=Object.create(null);
-function extraSnapshot(){return {column:COLUMN,roster:ROSTER,rules:RULES,sync:SYNC};}
+let FIND_STATUS=Object.create(null);
+function findStatusAttrs(name){
+  const value=FIND_STATUS[name];
+  return value?` data-find-status="${value}" title="${value==='found'?'已找到':'未找到'}"`:'';
+}
+function updateFindControls(name){
+  const value=FIND_STATUS[name]||'';
+  $('#dwName').dataset.findStatus=value;
+  document.querySelectorAll('[data-find]').forEach(b=>{
+    if(b.dataset.find!=='clear')b.setAttribute('aria-pressed',String(b.dataset.find===value));
+    b.disabled=b.dataset.find==='clear'&&!value;
+  });
+  $('#findStatusHint').textContent=value==='found'?'已标记为已找到':value==='missing'?'已标记为未找到':'未设置查找标记';
+}
+document.addEventListener('click',e=>{
+  const button=e.target.closest('[data-find]');
+  if(!button||!selected||!Object.hasOwn(STUDENTS,selected))return;
+  const name=selected,value=button.dataset.find;
+  const query=q.value,scrollTop=$('#board').scrollTop,scrollLeft=$('#board').scrollLeft;
+  const data=JSON.parse(JSON.stringify(snapshot()));
+  if(value==='clear')delete data.findStatus[name];else Object.defineProperty(data.findStatus,name,{value,enumerable:true,configurable:true,writable:true});
+  if(!commitData(data))return;
+  keyword=query.trim();q.value=query;clr.style.display=keyword?'block':'none';
+  selected=name;render();openDetail(name);
+  $('#board').scrollTop=scrollTop;$('#board').scrollLeft=scrollLeft;
+  (button.disabled?$('#findFound'):button).focus({preventScroll:true});
+});
+function extraSnapshot(){return {column:COLUMN,roster:ROSTER,rules:RULES,sync:SYNC,findStatus:FIND_STATUS};}
 function validateExtras(raw){
   const column={title:'年级 / 序号',labels:[]};
   if(raw.column){
@@ -1711,11 +1812,19 @@ function validateExtras(raw){
     }
     for(const [from,to] of Object.entries(rules))if(Object.hasOwn(rules,to))throw Error('请直接指向最终标准姓名，不要设置循环或多级纠错');
   }
-  return {column,roster,rules,sync:validateSync(raw.sync)};
+  const findStatus=Object.create(null);
+  if(raw.findStatus!==undefined){
+    if(!raw.findStatus||typeof raw.findStatus!=='object'||Array.isArray(raw.findStatus)||Object.keys(raw.findStatus).length>10000)throw Error('学生查找标记格式不正确');
+    for(const [name,value] of Object.entries(raw.findStatus)){
+      if(!name.trim()||name.length>80||!['found','missing'].includes(value))throw Error('学生查找标记无效');
+      if(Object.hasOwn(raw.students||{},name))findStatus[name]=value;
+    }
+  }
+  return {column,roster,rules,sync:validateSync(raw.sync),findStatus};
 }
 function loadExtras(raw){
   const extra=validateExtras(raw);COLUMN=extra.column;ROSTER=extra.roster;RULES=extra.rules;
-  SYNC=extra.sync;
+  SYNC=extra.sync;FIND_STATUS=extra.findStatus;
   Object.keys(ALIAS).forEach(k=>delete ALIAS[k]);Object.assign(ALIAS,RULES);
 }
 function isMakeup(r){return r.lessonType==='makeup'||(r.lessonType!=='regular' && /补/.test(r.note||''));}
@@ -1819,7 +1928,12 @@ function applyNameRules(data,rules){
     }
     if(from!==to)fixes.push({from,to,at:'手动确认 '+new Date().toLocaleString('zh-CN')});
   }
-  return {...data,students,fixes};
+  const findStatus=Object.create(null);
+  for(const [from,value] of Object.entries(data.findStatus||{})){
+    const to=rules[from]||from;
+    if(Object.hasOwn(students,to)&&(value==='found'||!Object.hasOwn(findStatus,to)))findStatus[to]=value;
+  }
+  return {...data,students,fixes,findStatus};
 }
 $('#featureForm').onsubmit=e=>{
   e.preventDefault();$('#featureError').textContent='';
@@ -1838,7 +1952,7 @@ $('#featureForm').onsubmit=e=>{
   }catch(err){$('#featureError').textContent=err.message;}
 };
 
-const SOURCE_URL='https://www.kdocs.cn/l/clsD9ig3BMQE?f=301';
+const SOURCE_URL='';
 let SYNC={source:SOURCE_URL,lastUpdated:'',method:''};
 function validateSync(raw){return {source:SOURCE_URL,lastUpdated:typeof raw?.lastUpdated==='string'?raw.lastUpdated.slice(0,40):'',method:typeof raw?.method==='string'?raw.method.slice(0,40):''};}
 function recordFlagsHTML(recs){return (recs.some(r=>r.upstairs)?'<span class="record-flag upstairs">楼上</span>':'')+(recs.some(r=>r.leave)?'<span class="record-flag leave">请假</span>':'');}
@@ -1893,20 +2007,27 @@ function parseStyledWorkbook(buffer,filename='表格.xlsx'){
   const style=workbookStyleFlags(wb,0),out=parseMatrix(rows,style.flags);out.colorWarning=style.warning;out.sheetName=wb.SheetNames[0];return out;
 }
 
-// A static file cannot inherit a WPS login or read another origin's private sheet.
-// Until an authorized online connection is configured, never label a file refresh as a cloud sync.
+// Local file updates only; no online document address is embedded.
 const syncDialog=document.createElement('dialog');syncDialog.id='syncDialog';syncDialog.setAttribute('aria-labelledby','syncTitle');
-syncDialog.innerHTML=`<div class="editor-head"><h2 id="syncTitle">数据源与更新</h2><button class="btn" id="syncClose">关闭</button></div><p>在线源：<a href="${SOURCE_URL}" target="_blank" rel="noopener noreferrer">打开金山文档课表</a></p><p class="color-summary">在线直连尚未接通：此链接需要 WPS 登录和文档访问权限。请在 WPS 官方页面登录；本页不收集密码，也不会因为打开了源表就提示更新成功。</p><p>当前可用：将源表下载为 XLSX，绑定这个文件。以后用最新下载文件覆盖同一路径，再点「一键更新数据」即可重读。<b>这是本地文件更新，不会自动读取云端变化。</b></p><div class="sync-actions"><button class="btn primary" id="bindSourceFile">绑定源表下载文件</button><button class="btn" id="pickSyncFile">选择最新 XLSX 更新</button><button class="btn" id="forgetSourceFile">取消文件绑定</button></div><input type="file" id="syncFile" accept=".xlsx" hidden><p id="syncStatus" role="status"></p><div id="syncPreview" hidden></div><div class="sync-actions"><button class="btn primary" id="syncApply" hidden>确认并更新</button><button class="btn" id="undoSync">恢复更新前的数据</button></div><p>更新会以源表为准替换本地排课，保留姓名纠错规则、参考名单和左侧栏设置，并保留一份更新前快照。颜色备注按本次源表重新计算。</p>`;
+syncDialog.innerHTML=`<div class="editor-head"><h2 id="syncTitle">数据源与更新</h2><button class="btn" id="syncClose">关闭</button></div><p>选择本地 XLSX 课表文件进行更新，也可以绑定文件，后续点击「一键更新数据」重新读取。<b>文件仅在当前浏览器中处理。</b></p><div class="sync-actions"><button class="btn primary" id="bindSourceFile">绑定本地课表文件</button><button class="btn" id="pickSyncFile">选择最新 XLSX 更新</button><button class="btn" id="forgetSourceFile">取消文件绑定</button></div><input type="file" id="syncFile" accept=".xlsx" hidden><p id="syncStatus" role="status"></p><div id="syncPreview" hidden></div><div class="sync-actions"><button class="btn primary" id="syncApply" hidden>确认并更新</button><button class="btn" id="undoSync">恢复更新前的数据</button></div><p>更新会以源表为准替换本地排课，保留姓名纠错规则、参考名单和左侧栏设置，并保留一份更新前快照。颜色备注按本次源表重新计算。</p>`;
 document.body.append(syncDialog);
 let sourceHandle=null,pendingSync=null,syncBusy=false;
 const previousKey=STORAGE_KEY+'.before-sync';
 function syncMessage(message,error=false){$('#syncStatus').textContent=message;$('#syncStatus').classList.toggle('error',error);}
 function handleStore(mode,value){return new Promise((resolve,reject)=>{
   if(!window.indexedDB){reject(Error('浏览器不支持文件绑定存储'));return;}
-  const req=indexedDB.open('timetable-source-files',1);req.onupgradeneeded=()=>req.result.createObjectStore('files');req.onerror=()=>reject(req.error);
-  req.onsuccess=()=>{const db=req.result,tx=db.transaction('files',mode==='get'?'readonly':'readwrite'),store=tx.objectStore('files');let op;
-    if(mode==='get')op=store.get('source');else if(mode==='put')op=store.put(value,'source');else op=store.delete('source');
-    tx.oncomplete=()=>{const result=op.result;db.close();resolve(result);};tx.onerror=()=>{db.close();reject(tx.error);};
+  const req=indexedDB.open('timetable-source-files',1);
+  req.onupgradeneeded=()=>req.result.createObjectStore('files');
+  req.onerror=()=>reject(req.error);
+  req.onsuccess=()=>{
+    const db=req.result;let tx;
+    try{
+      tx=db.transaction('files',mode==='get'?'readonly':'readwrite');
+      const store=tx.objectStore('files');let op;
+      tx.oncomplete=()=>{const result=op.result;db.close();resolve(result);};
+      tx.onerror=tx.onabort=()=>{db.close();reject(tx.error||Error('文件绑定存储事务已中止'));};
+      if(mode==='get')op=store.get('source');else if(mode==='put')op=store.put(value,'source');else op=store.delete('source');
+    }catch(err){try{tx?.abort();}catch{}db.close();reject(err);}
   };
 });}
 const handleReady=handleStore('get').then(h=>{sourceHandle=h||null;}).catch(()=>{});
@@ -1938,7 +2059,7 @@ async function applySync(){
     if(!commitData(job.data))throw Error($('#editorError').textContent||'无法写入本地存储');
     let binding='';
     if(job.handle){sourceHandle=job.handle;try{await handleStore('put',job.handle);binding='；已绑定文件，下次可一键重读';}catch{binding='；文件绑定无法持久保存，下次需重新选择';}}
-    clearSyncPending();syncMessage('已更新并保存：'+job.fileName+'（本地文件）'+binding+'。在线源未直接同步。');toast('课表已更新，楼上 / 请假备注已保存');
+    clearSyncPending();syncMessage('已更新并保存：'+job.fileName+'（本地文件）'+binding+'。');toast('课表已更新，楼上 / 请假备注已保存');
   }catch(err){syncMessage('更新未完成：'+err.message,true);}
 }
 $('#syncClose').onclick=()=>syncDialog.close();$('#syncApply').onclick=applySync;
@@ -1957,6 +2078,25 @@ $('#undoSync').onclick=()=>{
   catch(err){syncMessage(err.message,true);}
 };
 
+// Presentation enhancements; no student data is stored by these controls.
+$('#toolsToggle').onclick=()=>{const open=$('#toolsToggle').getAttribute('aria-expanded')!=='true';$('#toolsToggle').setAttribute('aria-expanded',String(open));$('#sidebarTools').classList.toggle('mobile-open',open);};
+$('#todayDate').textContent=new Intl.DateTimeFormat('zh-CN',{month:'long',day:'numeric',weekday:'long'}).format(new Date());
+document.addEventListener('click',e=>{const action=e.target.closest('[data-action]');if(action)document.getElementById(action.dataset.action)?.click();});
+document.addEventListener('keydown',e=>{
+  if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'&&!document.querySelector('dialog[open]')&&!$('#importPanel').classList.contains('show')){e.preventDefault();q.focus();}
+  if($('#importPanel').classList.contains('show')){
+    if(e.key==='Escape'){e.preventDefault();closeImport();}
+    if(e.key==='Tab'){
+      const els=[...$('#importPanel').querySelectorAll('button:not([disabled]),[tabindex="0"]')];const first=els[0],last=els[els.length-1];
+      if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
+    }
+  }
+  if((e.key==='Enter'||e.key===' ')&&e.target.matches('#drop,.stucard,.ii-hd')){e.preventDefault();e.target.click();}
+});
+const cardAccessibility=new MutationObserver(()=>{
+  $('#board').querySelectorAll('.stucard,.ii-hd').forEach(el=>{el.tabIndex=0;el.setAttribute('role','button');});
+});
+cardAccessibility.observe($('#board'),{childList:true,subtree:true});
 initBase();
 // 缩放偏好：优先恢复用户上次设置；手机端默认 100%（课表列多，靠横滑浏览，用户可自行缩放）
 (function autoZoom(){
@@ -1971,7 +2111,7 @@ initBase();
 // 默认视图为「此刻上课」，开启 30 秒自动刷新
 view = 'live';
 render();
-nowTick = setInterval(() => { if(view === 'live') renderLive(); }, 30000);
+nowTick = setInterval(() => { if(view === 'live') render(); }, 30000);
 })();
 </script>
 </body>
