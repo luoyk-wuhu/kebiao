@@ -248,6 +248,9 @@
   .lc-hd{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:9px}
   .lc-day{font-size:13px;font-weight:650;display:flex;align-items:center;gap:6px}
   .lc-time{font-size:12.5px;color:var(--ink-2);margin-top:2px}
+  .lc-actions{display:flex;align-items:center;gap:8px;flex:0 0 auto}
+  .btn.lc-clear-find{min-height:36px;padding:5px 8px;font-size:11px;white-space:nowrap}
+  .lc-clear-find:disabled{opacity:.55;cursor:default}
   .lc-cnt{text-align:right;flex:0 0 auto}
   .lc-cnt b{font-size:19px;font-weight:700;color:var(--brand-deep)}
   .lc-cnt span{font-size:11px;color:var(--ink-3);margin-left:2px}
@@ -1058,6 +1061,18 @@ function renderStuList(){
 
 /* ═══════════════ 6.5 实时视图：此刻在上课 ═══════════════ */
 // 拿某学生今天的课时段（用完整时段表按 phase 判定）
+function markedSlotStudents(full){
+  return Object.keys(FIND_STATUS).filter(name=>STUDENTS[name]?.some(record=>record.full===full));
+}
+
+function liveSlotActions(slot,count){
+  const disabled=markedSlotStudents(slot.full).length===0?' disabled':'';
+  return `<div class="lc-actions">
+    <button type="button" class="btn lc-clear-find" data-clear-slot-find="${esc(slot.full)}"${disabled}>清除状态</button>
+    ${count===undefined?'':`<div class="lc-cnt"><b>${count}</b><span>人</span></div>`}
+  </div>`;
+}
+
 function renderLive(){
   const board = $('#board');
   const info = nowInfo();
@@ -1136,7 +1151,7 @@ function renderLive(){
             <div class="lc-day">${esc(s.day)}</div>
             <div class="lc-time">${esc(s.time)}</div>
           </div>
-          <div class="lc-cnt"><b>${arr.length}</b><span>人</span></div>
+          ${liveSlotActions(s,arr.length)}
         </div>
         <div class="lc-bar"><i style="width:${prog}%"></i></div>
         <div class="lc-meta">已上 ${r?fmtMins(info.mins-r.start):''} · 还剩 <b>${left}</b> 分钟</div>
@@ -1153,7 +1168,7 @@ function renderLive(){
       const s = x.slot, arr = slotStudents[s.full];
       h += `<div class="lcard soon">
         <div class="lc-hd"><div><div class="lc-day">${esc(s.day)} <span class="tagsoon">即将开始</span></div><div class="lc-time">${esc(s.time)}</div></div>
-        <div class="lc-cnt"><b>${arr.length}</b><span>人</span></div></div>
+        ${liveSlotActions(s,arr.length)}</div>
         <div class="lc-meta">${x.range.start - info.mins} 分钟后开始</div>
         <div class="lc-names">${splitSlotHTML(s)}</div>
       </div>`;
@@ -1162,7 +1177,7 @@ function renderLive(){
       const s = x.slot, arr = slotStudents[s.full];
       h += `<div class="lcard just">
         <div class="lc-hd"><div><div class="lc-day">${esc(s.day)} <span class="tagjust">刚结束</span></div><div class="lc-time">${esc(s.time)}</div></div>
-        <div class="lc-cnt"><b>${arr.length}</b><span>人</span></div></div>
+        ${liveSlotActions(s,arr.length)}</div>
         <div class="lc-names">${splitSlotHTML(s)}</div>
       </div>`;
     });
@@ -1176,14 +1191,14 @@ function renderLive(){
       const s = x.slot, arr = slotStudents[s.full];
       h += `<div class="lcard later">
         <div class="lc-hd"><div><div class="lc-day">${esc(s.day)}</div><div class="lc-time">${esc(s.time)}</div></div>
-        <div class="lc-cnt"><b>${arr.length}</b><span>人</span></div></div>
+        ${liveSlotActions(s,arr.length)}</div>
         <div class="lc-names">${splitSlotHTML(s)}</div>
       </div>`;
     });
     h += `</div></div>`;
   }
 
-  if(endedOnes.length){ h += '<div class="live-sec"><h3>今天已结束</h3><div class="live-cards">' + endedOnes.map(x=>`<div class="lcard"><div class="lc-time">${esc(x.slot.time)}</div>${splitSlotHTML(x.slot)}</div>`).join('') + '</div></div>'; }
+  if(endedOnes.length){ h += '<div class="live-sec"><h3>今天已结束</h3><div class="live-cards">' + endedOnes.map(x=>`<div class="lcard"><div class="lc-hd"><div class="lc-time">${esc(x.slot.time)}</div>${liveSlotActions(x.slot)}</div>${splitSlotHTML(x.slot)}</div>`).join('') + '</div></div>'; }
   if(!list.length){
     h += `<div class="empty"><span class="big">🗓️</span>今天是${esc(wd)}，没有排课</div>`;
   }
@@ -1340,6 +1355,23 @@ document.querySelectorAll('.seg button').forEach(b => {
 
 /* ── 实时视图交互 ── */
 document.addEventListener('click', e => {
+  const clearButton = e.target.closest('[data-clear-slot-find]');
+  if(clearButton){
+    const names = markedSlotStudents(clearButton.dataset.clearSlotFind);
+    if(!names.length) return;
+    const query = q.value, board = $('#board'), scrollTop = board.scrollTop;
+    const data = snapshot();
+    data.findStatus = {...data.findStatus};
+    names.forEach(name=>delete data.findStatus[name]);
+    if(!commitData(data)) return;
+    q.value = query;
+    keyword = query.trim();
+    clr.style.display = keyword?'block':'none';
+    if(keyword) render();
+    board.scrollTop = scrollTop;
+    toast('已清除本时段 '+names.length+' 人的查找状态');
+    return;
+  }
   // 折叠展开「没课学生」
   const ih = e.target.closest('.ii-hd');
   if(ih){ ih.parentElement.classList.toggle('open'); return; }
