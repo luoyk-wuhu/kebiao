@@ -1288,6 +1288,8 @@ function openDetail(n){
     });
   });
 
+  bd += historyHTML(n);
+
   // 同班同学
   const peers = new Map();
   recs.forEach(r => {
@@ -1589,8 +1591,8 @@ function showImportResult(fname, out){
 
 $('#ipApply').addEventListener('click', () => {
   if(!pending) return;
-  if((SLOTS.length || Object.keys(STUDENTS).length) && !confirm('导入将替换现有课表，建议先导出备份。继续吗？')) return;
-  if(!commitData({...pending, ...extraSnapshot()})) return;
+  if((SLOTS.length || Object.keys(STUDENTS).length) && !confirm('导入将替换现有课表，往期补课记录会保留，并追加本次补课记录。建议先导出备份。继续吗？')) return;
+  if(!commitData({...pending, ...extraSnapshot()},false,{archive:true})) return;
   closeImport();
   const n = Object.keys(STUDENTS).length;
   toast(`已导入并整理完成：${n} 名学生`);
@@ -1625,6 +1627,7 @@ function initBase(){ loadLocal(); rebuild(); }
 /* Local-only persistence and explicit form editing. No embedded personal data. */
 const STORAGE_KEY = 'timetable.local.v1';
 let storageStamp = null, storageBlocked = false;
+let MAKEUP_HISTORY = [];
 let editingName = null, editorMode = '', slotDraft = [];
 const editor = $('#editor');
 function status(text){ $('#saveStatus').textContent = text; }
@@ -1654,19 +1657,21 @@ function validateData(raw){
   slots.sort((a,b)=>DAY_ORDER[a.day]-DAY_ORDER[b.day] || parseTimeRange(a.time).start-parseTimeRange(b.time).start);
   const extras=validateExtras(raw);
   const fixes=Array.isArray(raw.fixes)?raw.fixes.filter(f=>f && typeof f.from==='string' && typeof f.to==='string').slice(-2000).map(f=>({from:f.from.slice(0,80),to:f.to.slice(0,80),at:String(f.at||'手动确认').slice(0,100)})):[];
-  return {slots,students,fixes,...extras};
+  return {slots,students,fixes,...extras,makeupHistory:validateHistory(raw.makeupHistory)};
 }
 function loadLocal(){
   SLOTS=[]; STUDENTS=Object.create(null); FIX_LOG=[];
   try{
     storageStamp=localStorage.getItem(STORAGE_KEY);
-    if(storageStamp){const data=validateData(JSON.parse(storageStamp));SLOTS=data.slots;STUDENTS=data.students;FIX_LOG=data.fixes;loadExtras(data);status('已恢复此浏览器保存的课表');}
+    if(storageStamp){const source=JSON.parse(storageStamp);const data=validateData(source);if(source.makeupHistory===undefined){data.makeupHistory=collectMakeup(data,null);const migrated=JSON.stringify({version:1,...data});localStorage.setItem(STORAGE_KEY,migrated);storageStamp=migrated;}SLOTS=data.slots;STUDENTS=data.students;FIX_LOG=data.fixes;loadExtras(data);status('已恢复此浏览器保存的课表');}
     else status('尚无课表 · 保存后会在此浏览器自动恢复');
   }catch(err){storageBlocked=true;status('本地数据无法读取，已停止覆盖保存。可导出当前内容或通过恢复备份修复。');}
 }
-function commitData(raw,repair=false){
+function commitData(raw,repair=false,options={}){
   try{
     const data=validateData(raw);
+    data.makeupHistory=options.replaceHistory?data.makeupHistory:mergeHistory(MAKEUP_HISTORY,data.makeupHistory);
+    if(options.archive) data.makeupHistory=mergeHistory(data.makeupHistory,collectMakeup(data,new Date().toISOString()));
     if(storageBlocked && !repair) throw Error('本地存储不可用或原数据损坏，请恢复有效备份或清空损坏的数据');
     if(!repair && localStorage.getItem(STORAGE_KEY)!==storageStamp) throw Error('其他标签页已修改课表，请刷新后再编辑，避免覆盖');
     const text=JSON.stringify({version:1,...data,savedAt:new Date().toISOString()});
@@ -1676,6 +1681,41 @@ function commitData(raw,repair=false){
     return true;
   }catch(err){$('#editorError').textContent=err.message;status('保存未完成：'+err.message);toast('保存未完成：'+err.message);return false;}
 }
+// History is independent of the current slots/students, but committed atomically with them.
+function validateHistory(raw){
+  if(raw===undefined)return [];
+  if(!Array.isArray(raw)||raw.length>100000)throw Error('补课历史格式不正确或记录过多');
+  const ids=new Set();
+  return raw.map(r=>{
+    if(!r||typeof r.id!=='string'||!r.id||r.id.length>160||ids.has(r.id)||typeof r.student!=='string'||!r.student.trim()||r.student.length>80||!Object.hasOwn(DAY_ORDER,r.day)||typeof r.time!=='string'||r.time.length>100||!parseTimeRange(r.time)||typeof r.loc!=='string'||r.loc.length>200||typeof r.note!=='string'||r.note.length>500||(r.importedAt!==null&&(typeof r.importedAt!=='string'||!Number.isFinite(Date.parse(r.importedAt)))))throw Error('补课历史记录无效');
+    ids.add(r.id);return {id:r.id,student:r.student,day:r.day,time:r.time,loc:r.loc,note:r.note,upstairs:r.upstairs===true,leave:r.leave===true,importedAt:r.importedAt};
+  });
+}
+function mergeHistory(a,b){return validateHistory([...new Map([...a,...b].map(r=>[r.id,r])).values()]);}
+function collectMakeup(data,importedAt){
+  const batch=globalThis.crypto?.randomUUID?.()||Date.now().toString(36)+'-'+Math.random().toString(36).slice(2);
+  return Object.entries(data.students||{}).flatMap(([student,recs])=>recs.filter(isMakeup).map(r=>({student,day:r.day,time:r.time,loc:r.loc||'',note:r.note||'',upstairs:!!r.upstairs,leave:!!r.leave,importedAt}))).map((r,i)=>({...r,id:batch+'-'+i}));
+}
+function historyHTML(name){
+  const rows=MAKEUP_HISTORY.filter(r=>name===null||r.student===name).sort((a,b)=>(b.importedAt||'').localeCompare(a.importedAt||''));
+  return `<section class="makeup-history"><h3>往期补课记录 <small>${rows.length} 条</small></h3><p class="hint">按导入批次留存，不代表已完成补课。新课表不会清除这些记录；重复导入会新增一批。数据保存在此浏览器，请定期备份。</p>${rows.length?`<div class="btns"><label><input type="checkbox" data-history-all> 全选</label><button class="btn" data-history-delete="selected">删除所选</button><button class="btn" data-history-delete="all">清空${name===null?'全部':'该学生'}记录</button></div>`:'<p class="hint">暂无补课历史，下次导入课表时会自动记录。</p>'}<div>${rows.map(r=>`<article class="history-row"><label><input type="checkbox" data-history-id="${esc(r.id)}" aria-label="选择 ${esc(r.student+' '+r.day+' '+r.time)}"><span><b>${name===null?esc(r.student)+' · ':''}${esc(r.day)} ${esc(r.time)}</b><span class="history-meta">${esc(r.loc)} ${esc(r.note)}${r.upstairs?' · 楼上':''}${r.leave?' · 请假':''}</span><span class="history-meta">${r.importedAt?'导入时间：'+esc(new Date(r.importedAt).toLocaleString('zh-CN',{hour12:false})):'原导入时间未知（旧课表记录）'}</span></span></label><button class="btn" data-history-delete="${esc(r.id)}">删除</button></article>`).join('')}</div></section>`;
+}
+const historyStyle=document.createElement('style');historyStyle.textContent='.makeup-history{padding:12px 16px;border-top:1px solid var(--line)}.makeup-history h3{margin:0;font-size:15px}.makeup-history small{color:var(--ink-3);font-weight:400}.history-row{display:flex;gap:8px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--line-2)}.history-row label{display:flex;gap:8px;flex:1;min-width:0;overflow-wrap:anywhere}.history-row input{flex-shrink:0;margin-top:5px}.history-meta{display:block;font-size:12px;color:var(--ink-2);margin-top:4px}.history-row .btn{padding:6px 10px}.makeup-history .btns{margin:10px 0;flex-wrap:wrap}';document.head.append(historyStyle);
+const historyDialog=document.createElement('dialog');historyDialog.id='historyDialog';historyDialog.style.cssText='width:640px;max-width:94vw;max-height:85vh;overflow:auto;border:1px solid var(--line);border-radius:16px;padding:12px';document.body.append(historyDialog);
+function showHistory(){historyDialog.innerHTML='<div class="btns"><button class="btn" id="historyClose">关闭</button></div>'+historyHTML(null);if(!historyDialog.open)historyDialog.showModal();}
+const historyButton=document.createElement('button');historyButton.className='btn';historyButton.textContent='往期补课记录';historyButton.onclick=showHistory;$('#backup').parentElement.append(historyButton);
+document.addEventListener('change',e=>{if(e.target.matches('[data-history-all]'))e.target.closest('.makeup-history').querySelectorAll('[data-history-id]').forEach(c=>c.checked=e.target.checked);});
+document.addEventListener('click',e=>{
+  if(e.target.closest('#historyClose'))historyDialog.close();
+  const button=e.target.closest('[data-history-delete]');if(!button)return;
+  const section=button.closest('.makeup-history'),action=button.dataset.historyDelete;
+  const ids=new Set(action==='all'?[...section.querySelectorAll('[data-history-id]')].map(c=>c.dataset.historyId):action==='selected'?[...section.querySelectorAll('[data-history-id]:checked')].map(c=>c.dataset.historyId):[action]);
+  if(!ids.size){toast('请先选择记录');return;}
+  if(!confirm('永久删除这 '+ids.size+' 条补课历史？当前课表不受影响。'))return;
+  const name=selected,data=snapshot();data.makeupHistory=MAKEUP_HISTORY.filter(r=>!ids.has(r.id));
+  if(commitData(data,false,{replaceHistory:true})){if(name&&STUDENTS[name])openDetail(name);if(historyDialog.open)showHistory();toast('已删除 '+ids.size+' 条补课历史');}
+});
+
 function beginEditor(mode,title){
   editorMode=mode;$('#editorTitle').textContent=title;$('#editorError').textContent='';$('#editorDelete').hidden=mode!=='student'||editingName===null;
   if(!editor.open) editor.showModal();
@@ -1732,6 +1772,7 @@ $('#editorForm').onsubmit=e=>{
       if(new Set(recs.map(r=>r.full)).size!==recs.length) throw Error('同一时段不能重复排课');
       const overlap=recs.some((a,i)=>recs.slice(i+1).some(b=>{const x=parseTimeRange(a.time),y=parseTimeRange(b.time);return a.day===b.day && x.start<y.end && y.start<x.end;}));
       if(overlap && !confirm('该学生存在时间重叠的排课，仍要保存吗？')) return;
+      if(editingName!==null && editingName!==name)data.makeupHistory=data.makeupHistory.map(r=>r.student===editingName?{...r,student:name}:r);
       if(editingName!==null){
         delete data.students[editingName];
         if(editingName!==name&&Object.hasOwn(data.findStatus,editingName)){
@@ -1753,7 +1794,7 @@ $('#editorForm').onsubmit=e=>{
       validateData(data);
       if(removed && !confirm('将删除 '+removed+' 条关联排课记录（学生保留），确认保存吗？')) return;
     }
-    if(commitData(data)) editor.close();
+    if(commitData(data,false,{replaceHistory:true})) editor.close();
   }catch(err){$('#editorError').textContent=err.message;}
 };
 $('#editorDelete').onclick=()=>{
@@ -1775,7 +1816,7 @@ $('#backupFile').onchange=async e=>{
   }catch(err){toast('恢复失败：'+err.message);}finally{e.target.value='';}
 };
 $('#clearData').onclick=()=>{
-  if(confirm('清空此浏览器的全部学生与时段？此操作无法撤销，请先导出备份。')) commitData({slots:[],students:{}},storageBlocked);
+  if(confirm('清空此浏览器的全部学生与时段？往期补课记录仍会保留，可在历史记录中单独清除。请先导出备份。')) commitData({slots:[],students:{}},storageBlocked);
 };
 window.addEventListener('storage',e=>{if(e.key===STORAGE_KEY || e.key===null)status('其他标签页修改了课表，请刷新后继续编辑。当前未保存的编辑不会自动覆盖。');});
 let excelLoading;
@@ -1819,7 +1860,7 @@ document.addEventListener('click',e=>{
   $('#board').scrollTop=scrollTop;$('#board').scrollLeft=scrollLeft;
   (button.disabled?$('#findFound'):button).focus({preventScroll:true});
 });
-function extraSnapshot(){return {column:COLUMN,roster:ROSTER,rules:RULES,sync:SYNC,findStatus:FIND_STATUS};}
+function extraSnapshot(){return {column:COLUMN,roster:ROSTER,rules:RULES,sync:SYNC,findStatus:FIND_STATUS,makeupHistory:MAKEUP_HISTORY};}
 function validateExtras(raw){
   const column={title:'年级 / 序号',labels:[]};
   if(raw.column){
@@ -1857,6 +1898,7 @@ function validateExtras(raw){
 function loadExtras(raw){
   const extra=validateExtras(raw);COLUMN=extra.column;ROSTER=extra.roster;RULES=extra.rules;
   SYNC=extra.sync;FIND_STATUS=extra.findStatus;
+  MAKEUP_HISTORY=raw.makeupHistory===undefined?collectMakeup(raw,null):validateHistory(raw.makeupHistory);
   Object.keys(ALIAS).forEach(k=>delete ALIAS[k]);Object.assign(ALIAS,RULES);
 }
 function isMakeup(r){return r.lessonType==='makeup'||(r.lessonType!=='regular' && /补/.test(r.note||''));}
@@ -1965,7 +2007,7 @@ function applyNameRules(data,rules){
     const to=rules[from]||from;
     if(Object.hasOwn(students,to)&&(value==='found'||!Object.hasOwn(findStatus,to)))findStatus[to]=value;
   }
-  return {...data,students,fixes,findStatus};
+  return {...data,students,fixes,findStatus,makeupHistory:data.makeupHistory.map(r=>({...r,student:rules[r.student]||r.student}))};
 }
 $('#featureForm').onsubmit=e=>{
   e.preventDefault();$('#featureError').textContent='';
@@ -1979,7 +2021,7 @@ $('#featureForm').onsubmit=e=>{
       const changed=Object.keys(STUDENTS).filter(n=>Object.hasOwn(rules,n));
       if(changed.length && !confirm('将按预览修正 '+changed.length+' 个姓名并合并排课，确认吗？'))return;
     }
-    if(commitData(data))featureDialog.close();
+    if(commitData(data,false,{replaceHistory:true}))featureDialog.close();
     else $('#featureError').textContent=$('#editorError').textContent;
   }catch(err){$('#featureError').textContent=err.message;}
 };
@@ -2088,7 +2130,7 @@ async function applySync(){
     if(storageStamp!==job.stamp||localStorage.getItem(STORAGE_KEY)!==job.stamp)throw Error('预览后课表已发生变化，请重新读取文件');
     // Save rollback before committing. A quota or storage failure must not destroy the current schedule.
     localStorage.setItem(previousKey,JSON.stringify(snapshot()));
-    if(!commitData(job.data))throw Error($('#editorError').textContent||'无法写入本地存储');
+    if(!commitData(job.data,false,{archive:true}))throw Error($('#editorError').textContent||'无法写入本地存储');
     let binding='';
     if(job.handle){sourceHandle=job.handle;try{await handleStore('put',job.handle);binding='；已绑定文件，下次可一键重读';}catch{binding='；文件绑定无法持久保存，下次需重新选择';}}
     clearSyncPending();syncMessage('已更新并保存：'+job.fileName+'（本地文件）'+binding+'。');toast('课表已更新，楼上 / 请假备注已保存');
@@ -2106,7 +2148,7 @@ $('#bindSourceFile').onclick=async()=>{
 $('#pickSyncFile').onclick=()=>$('#syncFile').click();$('#syncFile').onchange=async e=>{const file=e.target.files[0];if(file)await prepareSync(file);e.target.value='';};
 $('#forgetSourceFile').onclick=async()=>{try{await handleStore('delete');sourceHandle=null;clearSyncPending();syncMessage('已取消文件绑定，现有课表已保留');}catch(err){syncMessage(err.message,true);}};
 $('#undoSync').onclick=()=>{
-  try{const text=localStorage.getItem(previousKey);if(!text)throw Error('没有可恢复的更新前快照');const data=validateData(JSON.parse(text));if(confirm('恢复最近一次更新前的课表？当前课表将被替换。')&&commitData(data)){clearSyncPending();syncMessage('已恢复更新前课表');}}
+  try{const text=localStorage.getItem(previousKey);if(!text)throw Error('没有可恢复的更新前快照');const data=validateData(JSON.parse(text));data.makeupHistory=MAKEUP_HISTORY;if(confirm('恢复最近一次更新前的课表？当前课表将被替换。')&&commitData(data)){clearSyncPending();syncMessage('已恢复更新前课表');}}
   catch(err){syncMessage(err.message,true);}
 };
 
@@ -2148,3 +2190,4 @@ nowTick = setInterval(() => { if(view === 'live') render(); }, 30000);
 </script>
 </body>
 </html>
+
